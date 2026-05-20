@@ -338,3 +338,37 @@ input:checked + .slider:before {
 .log-entry.error {
   color: var(--danger-red);
 }
+
+/* Proxy Configuration Panel Styling */
+.proxy-card {
+  transition: all 0.3s ease;
+}
+.proxy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.proxy-header h3 {
+  border: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+.arrow-indicator {
+  font-size: 9px;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+.proxy-content {
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 8px;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+.input-row .input-group {
+  flex: 1;
+}
+

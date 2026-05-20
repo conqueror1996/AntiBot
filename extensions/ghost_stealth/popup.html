@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ghost Sovereignty Console - Simple</title>
+  <title>Ghost Sovereignty Console</title>
   <link rel="stylesheet" href="popup.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
     <header>
       <div class="logo-area">
         <span class="logo-symbol">🔱</span>
-        <h1>GHOST STEAL-FIT</h1>
+        <h1>GHOST SOVEREIGNTY</h1>
       </div>
       <div class="status-indicator">
         <span class="status-dot green"></span>
@@ -22,7 +22,7 @@
       </div>
     </header>
 
-    <!-- Main Container (Single Screen, No Tabs) -->
+    <!-- Main Container -->
     <main class="simple-layout">
       
       <!-- 1. Connection Status Card -->
@@ -48,7 +48,51 @@
         </div>
       </div>
 
-      <!-- 3. Action Control Card -->
+      <!-- 3. Proxy Configuration Card -->
+      <div class="card glass proxy-card">
+        <div class="proxy-header" id="btn-toggle-proxy-panel">
+          <h3>Bright Data Proxy Settings</h3>
+          <span class="arrow-indicator">▼</span>
+        </div>
+        
+        <div class="proxy-content hidden" id="proxy-settings-panel">
+          <div class="toggle-group" style="margin-bottom: 8px;">
+            <label class="toggle-switch">
+              <input type="checkbox" id="proxy-enable-toggle">
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Route Traffic Through Proxy</span>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label for="proxy-host">Host / IP</label>
+              <input type="text" id="proxy-host" placeholder="zproxy.lum-superproxy.io">
+            </div>
+            <div class="input-group" style="flex: 0 0 80px;">
+              <label for="proxy-port">Port</label>
+              <input type="number" id="proxy-port" value="22225">
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label for="proxy-user">Username</label>
+              <input type="text" id="proxy-user" placeholder="lum-customer-...">
+            </div>
+            <div class="input-group">
+              <label for="proxy-pass">Password</label>
+              <input type="password" id="proxy-pass" placeholder="Password">
+            </div>
+          </div>
+
+          <button class="action-btn small" id="btn-save-proxy" style="width: 100%; text-align: center; margin-top: 6px;">
+            Apply Proxy Settings
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. Action Control Card -->
       <div class="card glass action-card">
         <h3>Action Configuration</h3>
         
@@ -61,7 +105,6 @@
           </select>
         </div>
 
-        <!-- Combined Input Fields (Always visible, changing dynamically if needed) -->
         <div class="input-group">
           <label for="amount-input">Amount (₹)</label>
           <input type="number" id="amount-input" value="5000">
@@ -72,7 +115,6 @@
           <input type="text" id="hash-input" placeholder="Paste transaction hash here">
         </div>
 
-        <!-- Simplified Speed/Intensity Slider -->
         <div class="input-group">
           <label for="intensity-preset">Speed / Intensity</label>
           <select id="intensity-preset">
@@ -82,14 +124,13 @@
           </select>
         </div>
 
-        <!-- Glow Action Button -->
         <button class="trigger-btn" id="btn-fire-strike">
           <span class="btn-glow"></span>
           <span class="btn-text">START ACTION</span>
         </button>
       </div>
 
-      <!-- 4. Real-time Status Log (Compact) -->
+      <!-- 5. Real-time Status Log -->
       <div class="card glass compact-log-card">
         <div class="console-box" id="log-feed">
           <div class="log-entry system">[READY] Waiting for action...</div>

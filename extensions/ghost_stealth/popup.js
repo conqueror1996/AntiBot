@@ -1,6 +1,6 @@
 /**
  * 🔱 GHOST-SOVEREIGNTY Popup Controller - Simplified (popup.js)
- * Manages simplified inputs, target checks, and action execution.
+ * Manages simple inputs, active check, and proxy configs.
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -31,6 +31,77 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, () => {
       log(`Stealth shield: ${stealthToggle.checked ? 'ENABLED' : 'DISABLED'}`, 'system');
       syncSettings();
+    });
+  });
+
+  // Proxy Panel Toggle Collapse
+  const proxyHeader = document.getElementById('btn-toggle-proxy-panel');
+  const proxyContent = document.getElementById('proxy-settings-panel');
+  const arrowIndicator = proxyHeader.querySelector('.arrow-indicator');
+
+  proxyHeader.addEventListener('click', () => {
+    const isHidden = proxyContent.classList.contains('hidden');
+    if (isHidden) {
+      proxyContent.classList.remove('hidden');
+      arrowIndicator.innerText = '▲';
+    } else {
+      proxyContent.classList.add('hidden');
+      arrowIndicator.innerText = '▼';
+    }
+  });
+
+  // Load Saved Proxy Configs
+  const proxyEnableToggle = document.getElementById('proxy-enable-toggle');
+  const proxyHost = document.getElementById('proxy-host');
+  const proxyPort = document.getElementById('proxy-port');
+  const proxyUser = document.getElementById('proxy-user');
+  const proxyPass = document.getElementById('proxy-pass');
+
+  chrome.storage.local.get(['proxy_enabled', 'proxy_host', 'proxy_port', 'proxy_user', 'proxy_pass'], (res) => {
+    if (res.proxy_enabled !== undefined) proxyEnableToggle.checked = res.proxy_enabled;
+    if (res.proxy_host) proxyHost.value = res.proxy_host;
+    if (res.proxy_port) proxyPort.value = res.proxy_port;
+    if (res.proxy_user) proxyUser.value = res.proxy_user;
+    if (res.proxy_pass) proxyPass.value = res.proxy_pass;
+  });
+
+  // Apply & Save Proxy Configuration Click
+  document.getElementById('btn-save-proxy').addEventListener('click', () => {
+    const enabled = proxyEnableToggle.checked;
+    const host = proxyHost.value.trim();
+    const port = proxyPort.value.trim();
+    const user = proxyUser.value.trim();
+    const pass = proxyPass.value.trim();
+
+    if (enabled && (!host || !port)) {
+      log('Proxy Host and Port are required when enabled.', 'error');
+      return;
+    }
+
+    chrome.storage.local.set({
+      proxy_enabled: enabled,
+      proxy_host: host,
+      proxy_port: port,
+      proxy_user: user,
+      proxy_pass: pass
+    }, () => {
+      log(`Proxy configurations saved.`, 'system');
+      
+      // Dispatch configurations to background worker
+      chrome.runtime.sendMessage({
+        action: "update_proxy",
+        enabled: enabled,
+        host: host,
+        port: port,
+        user: user,
+        pass: pass
+      }, (res) => {
+        if (res && res.status === "applied") {
+          log(`Proxy routing ACTIVATED successfully.`, 'success');
+        } else {
+          log(`Proxy routing DEACTIVATED.`, 'system');
+        }
+      });
     });
   });
 
@@ -101,7 +172,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const hash = document.getElementById('hash-input').value;
     const speed = document.getElementById('intensity-preset').value;
 
-    // Map simple speed option to request loops and delay ranges
     let loopCount = 5;
     let baseDelay = 400;
     if (speed === 'safe') {
