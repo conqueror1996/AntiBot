@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ghost Sovereignty Console - Advanced v3</title>
+  <title>Ghost Sovereignty Console - Simple</title>
   <link rel="stylesheet" href="popup.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,236 +14,88 @@
     <header>
       <div class="logo-area">
         <span class="logo-symbol">🔱</span>
-        <h1>GHOST SOVEREIGNTY v3</h1>
+        <h1>GHOST STEAL-FIT</h1>
       </div>
       <div class="status-indicator">
         <span class="status-dot green"></span>
-        <span class="status-text">STEALTH PRO</span>
+        <span class="status-text">ACTIVE</span>
       </div>
     </header>
 
-    <!-- Navigation Tabs -->
-    <nav class="tab-navigation">
-      <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
-      <button class="nav-btn" data-tab="strikes">Strikes</button>
-      <button class="nav-btn" data-tab="advanced">Advanced Settings</button>
-      <button class="nav-btn" data-tab="logs">Logs</button>
-    </nav>
+    <!-- Main Container (Single Screen, No Tabs) -->
+    <main class="simple-layout">
+      
+      <!-- 1. Connection Status Card -->
+      <div class="card glass status-card">
+        <div class="status-row">
+          <span class="label">Website:</span>
+          <span class="value" id="session-host">Detecting...</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Session Status:</span>
+          <span class="value badge green" id="session-status">SYNCED</span>
+        </div>
+      </div>
 
-    <!-- Main Content Area -->
-    <main class="tab-content">
-      <!-- Tab 1: Dashboard -->
-      <section id="tab-dashboard" class="content-section active">
-        <div class="card glass">
-          <h3>Active Session DNA</h3>
-          <div class="dna-item">
-            <span class="label">Target Host:</span>
-            <span class="value" id="session-host">Detecting...</span>
-          </div>
-          <div class="dna-item">
-            <span class="label">CSRF Token:</span>
-            <span class="value badge red" id="session-csrf">Not Detected</span>
-          </div>
-          <div class="dna-item">
-            <span class="label">Session UserID:</span>
-            <span class="value" id="session-userid">Unknown</span>
-          </div>
-          <div class="dna-item">
-            <span class="label">Auth Cookie:</span>
-            <span class="value badge red" id="session-cookie">Not Found</span>
-          </div>
+      <!-- 2. One-Click Toggles -->
+      <div class="card glass toggles-card">
+        <div class="toggle-group">
+          <label class="toggle-switch">
+            <input type="checkbox" id="stealth-toggle" checked>
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">Stealth Protection (Anti-Block)</span>
+        </div>
+      </div>
+
+      <!-- 3. Action Control Card -->
+      <div class="card glass action-card">
+        <h3>Action Configuration</h3>
+        
+        <div class="input-group">
+          <label for="strike-type">Select Action</label>
+          <select id="strike-type">
+            <option value="quantum">Deposit Test</option>
+            <option value="promo">Promo Claim Test</option>
+            <option value="withdraw">Withdrawal Test</option>
+          </select>
         </div>
 
-        <div class="card glass">
-          <h3>Stealth Engine Settings</h3>
-          <div class="toggle-group">
-            <label class="toggle-switch">
-              <input type="checkbox" id="stealth-masking-toggle" checked>
-              <span class="slider"></span>
-            </label>
-            <span class="toggle-label">Anti-Fingerprint Shield</span>
-          </div>
-          <div class="toggle-group">
-            <label class="toggle-switch">
-              <input type="checkbox" id="modal-shredder-toggle" checked>
-              <span class="slider"></span>
-            </label>
-            <span class="toggle-label">Dynamic Warning Modal Shredder</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Tab 2: Sovereign Strikes -->
-      <section id="tab-strikes" class="content-section">
-        <div class="card glass strike-config">
-          <h3>Sovereign Strike Engine</h3>
-          
-          <div class="input-group">
-            <label for="strike-type">Strike Vector</label>
-            <select id="strike-type">
-              <option value="quantum">Quantum Pulse (In-Page Deposit)</option>
-              <option value="promo">Promotion Hijack Strike</option>
-              <option value="withdraw">Lightning Bank Payout</option>
-              <option value="probe">Verification Audit Probe</option>
-            </select>
-          </div>
-
-          <!-- DYNAMIC FIELDS -->
-          <!-- Quantum Strike Inputs -->
-          <div class="dynamic-inputs" id="inputs-quantum">
-            <div class="input-row">
-              <div class="input-group">
-                <label for="quantum-amount">Amount (₹)</label>
-                <input type="number" id="quantum-amount" value="5000">
-              </div>
-              <div class="input-group">
-                <label for="quantum-hash">Hashed DNA</label>
-                <input type="text" id="quantum-hash" placeholder="Enter hash value">
-              </div>
-            </div>
-            <button class="action-btn small" id="btn-detect-hash">Auto-Detect Stolen DNA</button>
-          </div>
-
-          <!-- Promotion Strike Inputs -->
-          <div class="dynamic-inputs hidden" id="inputs-promo">
-            <div class="input-row">
-              <div class="input-group">
-                <label for="promo-target">Promotion ID</label>
-                <input type="text" id="promo-target" value="22">
-              </div>
-              <div class="input-group">
-                <label for="promo-body">Request Body</label>
-                <input type="text" id="promo-body" value="amount=5000">
-              </div>
-            </div>
-          </div>
-
-          <!-- Lightning Withdrawal Inputs -->
-          <div class="dynamic-inputs hidden" id="inputs-withdraw">
-            <div class="input-row">
-              <div class="input-group">
-                <label for="withdraw-amount">Amount (₹)</label>
-                <input type="number" id="withdraw-amount" value="1000">
-              </div>
-              <div class="input-group">
-                <label for="withdraw-bank-name">Bank Name</label>
-                <input type="text" id="withdraw-bank-name" value="State Bank of India">
-              </div>
-            </div>
-            <div class="input-row">
-              <div class="input-group">
-                <label for="withdraw-ac-name">Account Name</label>
-                <input type="text" id="withdraw-ac-name" value="Primary User Account">
-              </div>
-              <div class="input-group">
-                <label for="withdraw-ac-number">Account Number</label>
-                <input type="text" id="withdraw-ac-number">
-              </div>
-            </div>
-            <div class="input-group">
-              <label for="withdraw-ifsc">IFSC Code</label>
-              <input type="text" id="withdraw-ifsc" placeholder="e.g. SBIN0001234">
-            </div>
-          </div>
-
-          <!-- Verification Probe Inputs -->
-          <div class="dynamic-inputs hidden" id="inputs-probe">
-            <p class="description-text">Fires a lightweight verification request using the active session to test server-side authentication and routing sanity.</p>
-          </div>
-
-          <!-- Loop Controls Inside Strikes -->
-          <div class="card internal-card">
-            <h4>Loop & Cadence Controls</h4>
-            <div class="input-row">
-              <div class="input-group">
-                <label for="strike-loop-count">Total Calls</label>
-                <input type="number" id="strike-loop-count" value="10" min="1" max="500">
-              </div>
-              <div class="input-group">
-                <label for="strike-base-delay">Base Delay (ms)</label>
-                <input type="number" id="strike-base-delay" value="300" min="10" max="5000">
-              </div>
-              <div class="input-group">
-                <label for="strike-jitter">Jitter (ms)</label>
-                <input type="number" id="strike-jitter" value="150" min="0" max="2000">
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Progress Bar -->
-          <div class="progress-container hidden" id="strike-progress-wrapper">
-            <div class="progress-label-row">
-              <span id="progress-status">Preparing...</span>
-              <span id="progress-percent">0%</span>
-            </div>
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill" id="strike-progress-bar"></div>
-            </div>
-          </div>
-
-          <!-- Trigger Button -->
-          <button class="trigger-btn" id="btn-fire-strike">
-            <span class="btn-glow"></span>
-            <span class="btn-text">ENGAGE SOVEREIGN STRIKE</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- Tab 3: Advanced Settings -->
-      <section id="tab-advanced" class="content-section">
-        <div class="card glass">
-          <h3>Anti-Fingerprinting Config</h3>
-          <div class="input-group">
-            <label for="adv-user-agent-profile">User-Agent Profile</label>
-            <select id="adv-user-agent-profile">
-              <option value="default">Default Chrome (Untouched)</option>
-              <option value="chrome-windows">Google Chrome (Windows 11)</option>
-              <option value="chrome-mac">Google Chrome (macOS Sequoia)</option>
-              <option value="safari-ios">Safari (iPhone 16 Pro)</option>
-              <option value="chrome-android">Chrome (Samsung S25 Ultra)</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="adv-custom-ua">Custom User-Agent String</label>
-            <input type="text" id="adv-custom-ua" placeholder="Leave empty for profile default">
-          </div>
+        <!-- Combined Input Fields (Always visible, changing dynamically if needed) -->
+        <div class="input-group">
+          <label for="amount-input">Amount (₹)</label>
+          <input type="number" id="amount-input" value="5000">
         </div>
 
-        <div class="card glass">
-          <h3>Hardware & Network Entropy</h3>
-          <div class="input-row">
-            <div class="input-group">
-              <label for="adv-hardware-concurrency">CPU Cores</label>
-              <input type="number" id="adv-hardware-concurrency" value="8" min="2" max="64">
-            </div>
-            <div class="input-group">
-              <label for="adv-device-memory">RAM Size (GB)</label>
-              <input type="number" id="adv-device-memory" value="8" min="2" max="64">
-            </div>
-          </div>
-          <div class="input-group">
-            <label for="adv-gpu-vendor">Spoofed GPU Vendor</label>
-            <input type="text" id="adv-gpu-vendor" value="Intel Inc.">
-          </div>
-          <div class="input-group">
-            <label for="adv-gpu-renderer">Spoofed GPU Renderer</label>
-            <input type="text" id="adv-gpu-renderer" value="Intel(R) Iris(R) Xe Graphics">
-          </div>
+        <div class="input-group" id="hash-wrapper">
+          <label for="hash-input">DNA Transaction Hash</label>
+          <input type="text" id="hash-input" placeholder="Paste transaction hash here">
         </div>
-      </section>
 
-      <!-- Tab 4: System Logs -->
-      <section id="tab-logs" class="content-section">
-        <div class="card glass log-console-card">
-          <div class="console-header">
-            <h3>Stealth Console Output</h3>
-            <button class="action-btn small secondary" id="btn-clear-logs">Clear</button>
-          </div>
-          <div class="console-box" id="log-feed">
-            <div class="log-entry system">[SYSTEM] Console armed and waiting.</div>
-          </div>
+        <!-- Simplified Speed/Intensity Slider -->
+        <div class="input-group">
+          <label for="intensity-preset">Speed / Intensity</label>
+          <select id="intensity-preset">
+            <option value="safe">Safe (Slow, Human-like)</option>
+            <option value="medium" selected>Balanced (Medium Speed)</option>
+            <option value="fast">Aggressive (Fast)</option>
+          </select>
         </div>
-      </section>
+
+        <!-- Glow Action Button -->
+        <button class="trigger-btn" id="btn-fire-strike">
+          <span class="btn-glow"></span>
+          <span class="btn-text">START ACTION</span>
+        </button>
+      </div>
+
+      <!-- 4. Real-time Status Log (Compact) -->
+      <div class="card glass compact-log-card">
+        <div class="console-box" id="log-feed">
+          <div class="log-entry system">[READY] Waiting for action...</div>
+        </div>
+      </div>
+
     </main>
   </div>
   <script src="popup.js"></script>
