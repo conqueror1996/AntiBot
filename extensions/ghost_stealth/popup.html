@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ghost Sovereignty Console</title>
+  <title>Ghost Sovereignty Console - Advanced v3</title>
   <link rel="stylesheet" href="popup.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,19 +14,20 @@
     <header>
       <div class="logo-area">
         <span class="logo-symbol">🔱</span>
-        <h1>GHOST SOVEREIGNTY</h1>
+        <h1>GHOST SOVEREIGNTY v3</h1>
       </div>
       <div class="status-indicator">
         <span class="status-dot green"></span>
-        <span class="status-text">STEALTH ACTIVE</span>
+        <span class="status-text">STEALTH PRO</span>
       </div>
     </header>
 
     <!-- Navigation Tabs -->
     <nav class="tab-navigation">
       <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
-      <button class="nav-btn" data-tab="strikes">Sovereign Strikes</button>
-      <button class="nav-btn" data-tab="logs">System Logs</button>
+      <button class="nav-btn" data-tab="strikes">Strikes</button>
+      <button class="nav-btn" data-tab="advanced">Advanced Settings</button>
+      <button class="nav-btn" data-tab="logs">Logs</button>
     </nav>
 
     <!-- Main Content Area -->
@@ -69,13 +70,6 @@
             </label>
             <span class="toggle-label">Dynamic Warning Modal Shredder</span>
           </div>
-          <div class="toggle-group">
-            <label class="toggle-switch">
-              <input type="checkbox" id="auto-refresh-toggle" checked>
-              <span class="slider"></span>
-            </label>
-            <span class="toggle-label">Auto-Sync CSRF Token</span>
-          </div>
         </div>
       </section>
 
@@ -100,18 +94,14 @@
             <div class="input-row">
               <div class="input-group">
                 <label for="quantum-amount">Amount (₹)</label>
-                <input type="number" id="quantum-amount" value="5000" placeholder="Enter amount">
+                <input type="number" id="quantum-amount" value="5000">
               </div>
               <div class="input-group">
-                <label for="quantum-intensity">Intensity (Burst Count)</label>
-                <input type="number" id="quantum-intensity" value="50" min="1" max="200">
+                <label for="quantum-hash">Hashed DNA</label>
+                <input type="text" id="quantum-hash" placeholder="Enter hash value">
               </div>
             </div>
-            <div class="input-group">
-              <label for="quantum-hash">Hashed Deposit DNA</label>
-              <input type="text" id="quantum-hash" placeholder="Stolen hash from transaction ledger">
-              <button class="action-btn small" id="btn-detect-hash">Auto-Detect Stolen DNA</button>
-            </div>
+            <button class="action-btn small" id="btn-detect-hash">Auto-Detect Stolen DNA</button>
           </div>
 
           <!-- Promotion Strike Inputs -->
@@ -119,16 +109,12 @@
             <div class="input-row">
               <div class="input-group">
                 <label for="promo-target">Promotion ID</label>
-                <input type="text" id="promo-target" value="22" placeholder="e.g. 22">
+                <input type="text" id="promo-target" value="22">
               </div>
               <div class="input-group">
-                <label for="promo-intensity">Burst Intensity</label>
-                <input type="number" id="promo-intensity" value="20" min="1" max="100">
+                <label for="promo-body">Request Body</label>
+                <input type="text" id="promo-body" value="amount=5000">
               </div>
-            </div>
-            <div class="input-group">
-              <label for="promo-body">Request Body DNA</label>
-              <input type="text" id="promo-body" value="amount=5000" placeholder="e.g. amount=5000">
             </div>
           </div>
 
@@ -136,22 +122,22 @@
           <div class="dynamic-inputs hidden" id="inputs-withdraw">
             <div class="input-row">
               <div class="input-group">
-                <label for="withdraw-amount">Payout Amount (₹)</label>
-                <input type="number" id="withdraw-amount" value="1000" placeholder="Enter amount">
+                <label for="withdraw-amount">Amount (₹)</label>
+                <input type="number" id="withdraw-amount" value="1000">
               </div>
               <div class="input-group">
                 <label for="withdraw-bank-name">Bank Name</label>
-                <input type="text" id="withdraw-bank-name" value="State Bank of India" placeholder="e.g. State Bank of India">
+                <input type="text" id="withdraw-bank-name" value="State Bank of India">
               </div>
             </div>
             <div class="input-row">
               <div class="input-group">
                 <label for="withdraw-ac-name">Account Name</label>
-                <input type="text" id="withdraw-ac-name" value="Primary User Account" placeholder="Name on Account">
+                <input type="text" id="withdraw-ac-name" value="Primary User Account">
               </div>
               <div class="input-group">
                 <label for="withdraw-ac-number">Account Number</label>
-                <input type="text" id="withdraw-ac-number" placeholder="Enter A/C Number">
+                <input type="text" id="withdraw-ac-number">
               </div>
             </div>
             <div class="input-group">
@@ -165,6 +151,36 @@
             <p class="description-text">Fires a lightweight verification request using the active session to test server-side authentication and routing sanity.</p>
           </div>
 
+          <!-- Loop Controls Inside Strikes -->
+          <div class="card internal-card">
+            <h4>Loop & Cadence Controls</h4>
+            <div class="input-row">
+              <div class="input-group">
+                <label for="strike-loop-count">Total Calls</label>
+                <input type="number" id="strike-loop-count" value="10" min="1" max="500">
+              </div>
+              <div class="input-group">
+                <label for="strike-base-delay">Base Delay (ms)</label>
+                <input type="number" id="strike-base-delay" value="300" min="10" max="5000">
+              </div>
+              <div class="input-group">
+                <label for="strike-jitter">Jitter (ms)</label>
+                <input type="number" id="strike-jitter" value="150" min="0" max="2000">
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Progress Bar -->
+          <div class="progress-container hidden" id="strike-progress-wrapper">
+            <div class="progress-label-row">
+              <span id="progress-status">Preparing...</span>
+              <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="strike-progress-bar"></div>
+            </div>
+          </div>
+
           <!-- Trigger Button -->
           <button class="trigger-btn" id="btn-fire-strike">
             <span class="btn-glow"></span>
@@ -173,7 +189,50 @@
         </div>
       </section>
 
-      <!-- Tab 3: System Logs -->
+      <!-- Tab 3: Advanced Settings -->
+      <section id="tab-advanced" class="content-section">
+        <div class="card glass">
+          <h3>Anti-Fingerprinting Config</h3>
+          <div class="input-group">
+            <label for="adv-user-agent-profile">User-Agent Profile</label>
+            <select id="adv-user-agent-profile">
+              <option value="default">Default Chrome (Untouched)</option>
+              <option value="chrome-windows">Google Chrome (Windows 11)</option>
+              <option value="chrome-mac">Google Chrome (macOS Sequoia)</option>
+              <option value="safari-ios">Safari (iPhone 16 Pro)</option>
+              <option value="chrome-android">Chrome (Samsung S25 Ultra)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="adv-custom-ua">Custom User-Agent String</label>
+            <input type="text" id="adv-custom-ua" placeholder="Leave empty for profile default">
+          </div>
+        </div>
+
+        <div class="card glass">
+          <h3>Hardware & Network Entropy</h3>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="adv-hardware-concurrency">CPU Cores</label>
+              <input type="number" id="adv-hardware-concurrency" value="8" min="2" max="64">
+            </div>
+            <div class="input-group">
+              <label for="adv-device-memory">RAM Size (GB)</label>
+              <input type="number" id="adv-device-memory" value="8" min="2" max="64">
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="adv-gpu-vendor">Spoofed GPU Vendor</label>
+            <input type="text" id="adv-gpu-vendor" value="Intel Inc.">
+          </div>
+          <div class="input-group">
+            <label for="adv-gpu-renderer">Spoofed GPU Renderer</label>
+            <input type="text" id="adv-gpu-renderer" value="Intel(R) Iris(R) Xe Graphics">
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 4: System Logs -->
       <section id="tab-logs" class="content-section">
         <div class="card glass log-console-card">
           <div class="console-header">
