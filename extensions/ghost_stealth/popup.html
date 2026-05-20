@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ghost Sovereignty Console</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="glass-container">
+    <!-- Header -->
+    <header>
+      <div class="logo-area">
+        <span class="logo-symbol">🔱</span>
+        <h1>GHOST SOVEREIGNTY</h1>
+      </div>
+      <div class="status-indicator">
+        <span class="status-dot green"></span>
+        <span class="status-text">STEALTH ACTIVE</span>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tab-navigation">
+      <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="nav-btn" data-tab="strikes">Sovereign Strikes</button>
+      <button class="nav-btn" data-tab="logs">System Logs</button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="tab-content">
+      <!-- Tab 1: Dashboard -->
+      <section id="tab-dashboard" class="content-section active">
+        <div class="card glass">
+          <h3>Active Session DNA</h3>
+          <div class="dna-item">
+            <span class="label">Target Host:</span>
+            <span class="value" id="session-host">Detecting...</span>
+          </div>
+          <div class="dna-item">
+            <span class="label">CSRF Token:</span>
+            <span class="value badge red" id="session-csrf">Not Detected</span>
+          </div>
+          <div class="dna-item">
+            <span class="label">Session UserID:</span>
+            <span class="value" id="session-userid">Unknown</span>
+          </div>
+          <div class="dna-item">
+            <span class="label">Auth Cookie:</span>
+            <span class="value badge red" id="session-cookie">Not Found</span>
+          </div>
+        </div>
+
+        <div class="card glass">
+          <h3>Stealth Engine Settings</h3>
+          <div class="toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="stealth-masking-toggle" checked>
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Anti-Fingerprint Shield</span>
+          </div>
+          <div class="toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="modal-shredder-toggle" checked>
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Dynamic Warning Modal Shredder</span>
+          </div>
+          <div class="toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="auto-refresh-toggle" checked>
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Auto-Sync CSRF Token</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 2: Sovereign Strikes -->
+      <section id="tab-strikes" class="content-section">
+        <div class="card glass strike-config">
+          <h3>Sovereign Strike Engine</h3>
+          
+          <div class="input-group">
+            <label for="strike-type">Strike Vector</label>
+            <select id="strike-type">
+              <option value="quantum">Quantum Pulse (In-Page Deposit)</option>
+              <option value="promo">Promotion Hijack Strike</option>
+              <option value="withdraw">Lightning Bank Payout</option>
+              <option value="probe">Verification Audit Probe</option>
+            </select>
+          </div>
+
+          <!-- DYNAMIC FIELDS -->
+          <!-- Quantum Strike Inputs -->
+          <div class="dynamic-inputs" id="inputs-quantum">
+            <div class="input-row">
+              <div class="input-group">
+                <label for="quantum-amount">Amount (₹)</label>
+                <input type="number" id="quantum-amount" value="5000" placeholder="Enter amount">
+              </div>
+              <div class="input-group">
+                <label for="quantum-intensity">Intensity (Burst Count)</label>
+                <input type="number" id="quantum-intensity" value="50" min="1" max="200">
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="quantum-hash">Hashed Deposit DNA</label>
+              <input type="text" id="quantum-hash" placeholder="Stolen hash from transaction ledger">
+              <button class="action-btn small" id="btn-detect-hash">Auto-Detect Stolen DNA</button>
+            </div>
+          </div>
+
+          <!-- Promotion Strike Inputs -->
+          <div class="dynamic-inputs hidden" id="inputs-promo">
+            <div class="input-row">
+              <div class="input-group">
+                <label for="promo-target">Promotion ID</label>
+                <input type="text" id="promo-target" value="22" placeholder="e.g. 22">
+              </div>
+              <div class="input-group">
+                <label for="promo-intensity">Burst Intensity</label>
+                <input type="number" id="promo-intensity" value="20" min="1" max="100">
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="promo-body">Request Body DNA</label>
+              <input type="text" id="promo-body" value="amount=5000" placeholder="e.g. amount=5000">
+            </div>
+          </div>
+
+          <!-- Lightning Withdrawal Inputs -->
+          <div class="dynamic-inputs hidden" id="inputs-withdraw">
+            <div class="input-row">
+              <div class="input-group">
+                <label for="withdraw-amount">Payout Amount (₹)</label>
+                <input type="number" id="withdraw-amount" value="1000" placeholder="Enter amount">
+              </div>
+              <div class="input-group">
+                <label for="withdraw-bank-name">Bank Name</label>
+                <input type="text" id="withdraw-bank-name" value="State Bank of India" placeholder="e.g. State Bank of India">
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label for="withdraw-ac-name">Account Name</label>
+                <input type="text" id="withdraw-ac-name" value="Primary User Account" placeholder="Name on Account">
+              </div>
+              <div class="input-group">
+                <label for="withdraw-ac-number">Account Number</label>
+                <input type="text" id="withdraw-ac-number" placeholder="Enter A/C Number">
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="withdraw-ifsc">IFSC Code</label>
+              <input type="text" id="withdraw-ifsc" placeholder="e.g. SBIN0001234">
+            </div>
+          </div>
+
+          <!-- Verification Probe Inputs -->
+          <div class="dynamic-inputs hidden" id="inputs-probe">
+            <p class="description-text">Fires a lightweight verification request using the active session to test server-side authentication and routing sanity.</p>
+          </div>
+
+          <!-- Trigger Button -->
+          <button class="trigger-btn" id="btn-fire-strike">
+            <span class="btn-glow"></span>
+            <span class="btn-text">ENGAGE SOVEREIGN STRIKE</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Tab 3: System Logs -->
+      <section id="tab-logs" class="content-section">
+        <div class="card glass log-console-card">
+          <div class="console-header">
+            <h3>Stealth Console Output</h3>
+            <button class="action-btn small secondary" id="btn-clear-logs">Clear</button>
+          </div>
+          <div class="console-box" id="log-feed">
+            <div class="log-entry system">[SYSTEM] Console armed and waiting.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
